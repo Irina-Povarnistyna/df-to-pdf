@@ -153,9 +153,9 @@ pdf.output(f'report {(date.today() - timedelta(days=1)).strftime("%d.%m")}.pdf')
 nest_asyncio.apply()
 
 # Set your API credentials, phone number, and session file name
-api_id = ''
-api_hash = ''
-phone_number = ''
+api_id = 'id'
+api_hash = 'hash'
+phone_number = 'number'
 session_file = 'session_name'
 client = TelegramClient(session_file, api_id, api_hash)
 

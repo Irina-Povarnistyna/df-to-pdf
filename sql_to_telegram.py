@@ -8,7 +8,6 @@ from datetime import date, timedelta, datetime
 import asyncio
 import nest_asyncio
 from telethon import TelegramClient, functions, types
-import pytz
 
 #result is the query from clickhouse
 #data manipulation
@@ -146,43 +145,28 @@ pdf.table(df, 'style1')
 pdf.add_page()
 pdf.table(df_today, 'style2')
 
-pdf.output(f'report {(date.today() - timedelta(days=1)).strftime("%d.%m")}.pdf') #save the report in desktop
+pdf.output(f'report {(date.today() - timedelta(days=1)).strftime("%d.%m")}.pdf') #save the report on desktop
 
 #send to telegram
 # Apply nest_asyncio to the current event loop
 nest_asyncio.apply()
 
-# Set your API credentials, phone number, and session file name
-api_id = 'id'
-api_hash = 'hash'
-phone_number = 'number'
+# Set API credentials, phone number, and session file name
+api_id = api_id
+api_hash = api_hash
+phone_number = phone_number
 session_file = 'session_name'
-client = TelegramClient(session_file, api_id, api_hash)
+client = TelegramClient(session_file, api_id, api_hash, system_version="4.16.30-vxCUSTOM")
 
 # Define an async function to send the file
 async def send_file():
     # Start the client
     async with client:
-        # Get the user ID of the recipient
-        user = await client.get_entity('')
-        user_id = user.id
-
-        # Send the file to the user
-        file_path = f'belif {datetime.datetime.today().strftime("%d.%m")}.pdf'
-
-        # Get current time in UTC
-        now = datetime.datetime.now(pytz.timezone('UTC'))
-
-        # Calculate next weekday at 5:00 UTC
-        if now.weekday() < 5 and now.time() < datetime.time(5, 0):
-            # If today is a weekday and it's not yet 10:00, schedule for today at 10:00
-            scheduled_time = now.replace(hour=5, minute=30, second=0, microsecond=0)
-        else:
-            # Otherwise, schedule for next weekday at 10:00
-            days_ahead = 0 if now.weekday() < 4 else 7 - now.weekday()
-            scheduled_time = (now + datetime.timedelta(days=days_ahead)).replace(hour=5, minute=30, second=0, microsecond=0)
-
-        await client.send_file(user_id, file=file_path, schedule=scheduled_time)
+        # Get the chanel ID
+        chanel = chanel
+        # Send the file to the chanel
+        file_path = f'report {(date.today() - timedelta(days=1)).strftime("%d.%m")}.pdf'
+        await client.send_file(chanel, file=file_path)
 
 # Run the async function
 asyncio.run(send_file())
